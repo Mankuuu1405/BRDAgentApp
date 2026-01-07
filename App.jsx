@@ -2,14 +2,14 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import MainNavigator from './src/navigation/MainNavigator';
-import { COLORS } from './src/utils/constants';
+// import { COLORS } from './src/utils/constants';
 
 const App = () => {
   return (
     <>
       <StatusBar 
         barStyle="dark-content" 
-        backgroundColor={COLORS.white}
+        backgroundColor= "#FFFFFF"
       />
       <MainNavigator />
     </>
