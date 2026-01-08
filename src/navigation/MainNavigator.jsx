@@ -7,6 +7,7 @@ import { navigationRef } from './navigationRef';
 import AuthNavigator from './AuthNavigator';
 import FieldAgentNavigator from './FieldAgentNavigator';
 import Notifications from '../screens/fieldInvestigation/Notifications';
+import CollectionAgentNavigator from './CollectionAgentNavigator';
 
 const COLORS = {
   primary: '#5D6AFF',
@@ -19,6 +20,7 @@ const Stack = createStackNavigator();
 const MainNavigator = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null); // 'FI', 'COL', 'CP'
 
   useEffect(() => {
     checkAuthStatus();
@@ -28,6 +30,7 @@ const MainNavigator = () => {
     try {
       setTimeout(() => {
         setIsAuthenticated(false);
+        setUserRole(null);
         setIsLoading(false);
       }, 1000);
     } catch (error) {
@@ -44,6 +47,24 @@ const MainNavigator = () => {
     );
   }
 
+  // Determine which navigator to show based on role
+  const getRoleBasedNavigator = () => {
+    switch (userRole) {
+      case 'FI':
+        return FieldAgentNavigator;
+      case 'COL':
+        return CollectionAgentNavigator;
+      case 'CP':
+        // TODO: Add Channel Partner Navigator
+        return FieldAgentNavigator; // Temporary fallback
+      default:
+        return FieldAgentNavigator;
+    }
+  };
+
+  const RoleNavigator = getRoleBasedNavigator();
+
+
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
@@ -56,11 +77,13 @@ const MainNavigator = () => {
           <>
             <Stack.Screen name="Auth" component={AuthNavigator} />
             <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+            <Stack.Screen name="CollectionAgentMain" component={CollectionAgentNavigator} />
             <Stack.Screen name="Notifications" component={Notifications} />
           </>
         ) : (
           <>
             <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+            <Stack.Screen name="Main" component={RoleNavigator} />
             <Stack.Screen name="Notifications" component={Notifications} />
           </>
         )}

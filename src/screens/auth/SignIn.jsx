@@ -66,6 +66,8 @@ const SignIn = ({ navigation }) => {
     // Navigate based on role
     if (selectedRole === ROLES.FIELD_INVESTIGATION) {
       navigation.navigate('FieldAgentMain');
+    } else if (selectedRole === ROLES.COLLECTION) {
+      navigation.navigate('CollectionAgentMain');
     } else {
       Alert.alert('Coming Soon', 'This role interface is under development');
     }
