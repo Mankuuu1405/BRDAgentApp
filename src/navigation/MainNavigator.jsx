@@ -1,4 +1,4 @@
-// src/navigation/MainNavigator.js
+// src/navigation/MainNavigator.jsx
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -6,7 +6,14 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { navigationRef } from './navigationRef';
 import AuthNavigator from './AuthNavigator';
 import FieldAgentNavigator from './FieldAgentNavigator';
+import ChannelPartnerNavigator from './ChannelPartnerNavigator';
 import Notifications from '../screens/fieldInvestigation/Notifications';
+import CPNotifications from '../screens/channelPartner/CPNotifications';
+import AboutApp from '../screens/support&others/AboutApp';
+import PrivacyPolicy from '../screens/support&others/PrivacyPolicy';
+import HelpSupport from '../screens/support&others/HelpSupport';
+import RaiseTicketScreen from '../screens/support&others/RaiseTicketScreen';
+import LeadDetails from '../screens/channelPartner/LeadDetails';
 
 const COLORS = {
   primary: '#5D6AFF',
@@ -56,12 +63,26 @@ const MainNavigator = () => {
           <>
             <Stack.Screen name="Auth" component={AuthNavigator} />
             <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+            <Stack.Screen name="ChannelPartnerMain" component={ChannelPartnerNavigator} />
             <Stack.Screen name="Notifications" component={Notifications} />
+            <Stack.Screen name="CPNotifications" component={CPNotifications} />
+            <Stack.Screen name="AboutApp" component={AboutApp} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+            <Stack.Screen name="HelpSupport" component={HelpSupport} />
+            <Stack.Screen name="RaiseTicket" component={RaiseTicketScreen} />
+            <Stack.Screen name="LeadDetails" component={LeadDetails} />
           </>
         ) : (
           <>
             <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+            <Stack.Screen name="ChannelPartnerMain" component={ChannelPartnerNavigator} />
             <Stack.Screen name="Notifications" component={Notifications} />
+            <Stack.Screen name="CPNotifications" component={CPNotifications} />
+            <Stack.Screen name="AboutApp" component={AboutApp} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+            <Stack.Screen name="HelpSupport" component={HelpSupport} />
+            <Stack.Screen name="RaiseTicket" component={RaiseTicketScreen} />
+            <Stack.Screen name="LeadDetails" component={LeadDetails} />
           </>
         )}
       </Stack.Navigator>
@@ -79,4 +100,3 @@ const styles = StyleSheet.create({
 });
 
 export default MainNavigator;
-

@@ -310,19 +310,28 @@ const Profile = ({ navigation }) => {
 
   const renderQuickActions = () => (
     <View style={styles.quickActions}>
-      <TouchableOpacity style={styles.actionCard}>
+      <TouchableOpacity 
+      style={styles.actionCard}
+      onPress={() => navigation.navigate('HelpSupport')}
+      >
         <Icon name="help-circle" size={24} color={COLORS.primary} />
         <Text style={styles.actionText}>Help & Support</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.actionCard}>
-        <Icon name="document-text" size={24} color={COLORS.primary} />
-        <Text style={styles.actionText}>Guidelines</Text>
+      <TouchableOpacity 
+      style={styles.actionCard} 
+      onPress={() => navigation.navigate('AboutApp')}
+      >
+        <Icon name="information-circle" size={24} color={COLORS.primary} />
+        <Text style={styles.actionText}>About App</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.actionCard}>
-        <Icon name="settings" size={24} color={COLORS.primary} />
-        <Text style={styles.actionText}>Settings</Text>
+      <TouchableOpacity 
+      style={styles.actionCard} 
+      onPress={() => navigation.navigate('PrivacyPolicy')}
+      >
+        <Icon name="shield-checkmark" size={24} color={COLORS.primary} />
+        <Text style={styles.actionText}>Privacy & Policy</Text>
       </TouchableOpacity>
       
       <TouchableOpacity style={[styles.actionCard, styles.logoutCard]} onPress={handleLogout}>
@@ -660,7 +669,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   logoutCard: {
-    minWidth: '100%',
+    minWidth: '85%',
     borderWidth: 1,
     borderColor: COLORS.danger,
     backgroundColor: '#FEE2E2',

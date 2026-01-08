@@ -147,6 +147,9 @@ const Notifications = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={24} color={COLORS.text.primary} />
+        </TouchableOpacity>
         <View>
           <Text style={styles.headerTitle}>Notifications</Text>
           {unreadCount > 0 && (
@@ -248,11 +251,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: COLORS.text.primary,
+    marginLeft: -80,
   },
   unreadCount: {
     fontSize: 14,
     color: COLORS.text.secondary,
     marginTop: 4,
+    marginLeft: -80,
   },
   markAllBtn: {
     paddingHorizontal: 12,
