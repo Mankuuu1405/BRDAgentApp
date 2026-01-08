@@ -1,4 +1,4 @@
-// src/navigation/FieldAgentNavigator.js
+// src/navigation/FieldAgentNavigator.js (bottom tab navigator for field agents)
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -28,7 +28,7 @@ const FieldAgentNavigator = () => {
           backgroundColor: COLORS.white,
           borderTopWidth: 1,
           borderTopColor: COLORS.gray200,
-          height: 60,
+          height: 85,
           paddingBottom: 8,
           paddingTop: 8,
         },

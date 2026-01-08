@@ -6,6 +6,7 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { navigationRef } from './navigationRef';
 import AuthNavigator from './AuthNavigator';
 import FieldAgentNavigator from './FieldAgentNavigator';
+import Notifications from '../screens/fieldInvestigation/Notifications';
 
 const COLORS = {
   primary: '#5D6AFF',
@@ -55,9 +56,13 @@ const MainNavigator = () => {
           <>
             <Stack.Screen name="Auth" component={AuthNavigator} />
             <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+            <Stack.Screen name="Notifications" component={Notifications} />
           </>
         ) : (
-          <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+          <>
+            <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
+            <Stack.Screen name="Notifications" component={Notifications} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
@@ -78,46 +83,35 @@ export default MainNavigator;
 
 
 
-
 // // src/navigation/MainNavigator.js
 // import React, { useState, useEffect } from 'react';
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
-// import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
+// import { ActivityIndicator, View, StyleSheet } from 'react-native';
 // import { navigationRef } from './navigationRef';
 // import AuthNavigator from './AuthNavigator';
-// // Disabled BottomTabNavigator and many feature screens temporarily to keep the app runnable while those screens are implemented.
-// // import BottomTabNavigator from './BottomTabNavigator';
-// import { COLORS, ROLES } from '../utils/constants';
+// import FieldAgentNavigator from './FieldAgentNavigator';
 
-// // NOTE: Several feature screens are not yet implemented (or missing). They are commented out above.
-// // A simple placeholder screen is provided for authenticated states.
-
-// const HomePlaceholder = () => (
-//   <View style={styles.loadingContainer}>
-//     <Text style={{fontSize:18, color: COLORS.primary}}>Home (placeholder)</Text>
-//   </View>
-// );
+// const COLORS = {
+//   primary: '#5D6AFF',
+//   white: '#FFFFFF',
+//   background: '#F5F7FA',
+// };
 
 // const Stack = createStackNavigator();
 
 // const MainNavigator = () => {
 //   const [isLoading, setIsLoading] = useState(true);
 //   const [isAuthenticated, setIsAuthenticated] = useState(false);
-//   const [userRole, setUserRole] = useState(null);
 
 //   useEffect(() => {
-//     // Check authentication status and user role
 //     checkAuthStatus();
 //   }, []);
 
 //   const checkAuthStatus = async () => {
 //     try {
-//       // TODO: Check secure storage for auth token and user role
-//       // For now, simulating a check
 //       setTimeout(() => {
-//         setIsAuthenticated(false); // Change to true for testing dashboard
-//         setUserRole(ROLES.FIELD_INVESTIGATION); // Set user role
+//         setIsAuthenticated(false);
 //         setIsLoading(false);
 //       }, 1000);
 //     } catch (error) {
@@ -143,13 +137,12 @@ export default MainNavigator;
 //         }}
 //       >
 //         {!isAuthenticated ? (
-//           <Stack.Screen name="Auth" component={AuthNavigator} />
-//         ) : (
 //           <>
-//             <Stack.Screen name="HomePlaceholder" component={HomePlaceholder} />
-//             {/* NOTE: Authenticated screens (bottom tabs and feature screens) are temporarily disabled
-//                 to keep the app running with implemented UI only. Uncomment and restore when screens are ready. */}
+//             <Stack.Screen name="Auth" component={AuthNavigator} />
+//             <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
 //           </>
+//         ) : (
+//           <Stack.Screen name="FieldAgentMain" component={FieldAgentNavigator} />
 //         )}
 //       </Stack.Navigator>
 //     </NavigationContainer>
@@ -166,3 +159,4 @@ export default MainNavigator;
 // });
 
 // export default MainNavigator;
+

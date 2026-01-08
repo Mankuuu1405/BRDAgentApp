@@ -1,5 +1,5 @@
 // src/screens/fieldInvestigation/TaskBucket.js
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { PriorityBadge, StatusBadge, ActionButtonRow } from '../../components/fieldInvestigation/VerificationComponents';
 
 const COLORS = {
   primary: '#5D6AFF',
@@ -31,12 +32,12 @@ const TaskBucket = ({ navigation }) => {
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [sortBy, setSortBy] = useState('Distance');
 
-  const [cases] = useState([
+  const [allCases] = useState([
     {
       id: 'LOC-2025-8832',
       name: 'Rajesh Kumar',
       address: 'H-102, Dwarka Sector 10, Delhi',
-      distance: '2.3 km',
+      distance: 2.3,
       priority: 'High',
       status: 'Pending',
       loanAmount: '₹5,00,000',
@@ -47,7 +48,7 @@ const TaskBucket = ({ navigation }) => {
       id: 'LOC-2025-8901',
       name: 'Priya Sharma',
       address: 'A-45, Rohini Sector 15, Delhi',
-      distance: '3.8 km',
+      distance: 3.8,
       priority: 'Urgent',
       status: 'Pending',
       loanAmount: '₹7,50,000',
@@ -58,7 +59,7 @@ const TaskBucket = ({ navigation }) => {
       id: 'LOC-2025-8765',
       name: 'Amit Verma',
       address: 'B-201, Janakpuri, Delhi',
-      distance: '5.2 km',
+      distance: 5.2,
       priority: 'Medium',
       status: 'In Progress',
       loanAmount: '₹3,00,000',
@@ -69,7 +70,7 @@ const TaskBucket = ({ navigation }) => {
       id: 'LOC-2025-8654',
       name: 'Neha Singh',
       address: 'C-78, Vikaspuri, Delhi',
-      distance: '6.1 km',
+      distance: 6.1,
       priority: 'Low',
       status: 'Pending',
       loanAmount: '₹2,50,000',
@@ -80,7 +81,7 @@ const TaskBucket = ({ navigation }) => {
       id: 'LOC-2025-8543',
       name: 'Suresh Patel',
       address: 'D-15, Tilak Nagar, Delhi',
-      distance: '7.5 km',
+      distance: 7.5,
       priority: 'Medium',
       status: 'Pending',
       loanAmount: '₹4,00,000',
@@ -89,56 +90,84 @@ const TaskBucket = ({ navigation }) => {
     },
   ]);
 
-  const filters = ['All', 'Pending', 'In Progress', 'Urgent'];
+  const filters = [
+    { id: 'All', label: 'All' },
+    { id: 'Pending', label: 'Pending' },
+    { id: 'In Progress', label: 'In Progress' },
+    { id: 'Urgent', label: 'Urgent' },
+  ];
+
   const sortOptions = ['Distance', 'Priority', 'Pincode'];
 
-  const getPriorityColor = (priority) => {
+  // Priority weight for sorting
+  const getPriorityWeight = (priority) => {
     switch (priority) {
-      case 'Urgent':
-        return { bg: '#FEE2E2', text: COLORS.danger };
-      case 'High':
-        return { bg: '#FEF3C7', text: COLORS.warning };
-      case 'Medium':
-        return { bg: '#DBEAFE', text: COLORS.primary };
-      default:
-        return { bg: COLORS.gray200, text: COLORS.gray500 };
+      case 'Urgent': return 4;
+      case 'High': return 3;
+      case 'Medium': return 2;
+      case 'Low': return 1;
+      default: return 0;
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'In Progress':
-        return { bg: '#DBEAFE', text: COLORS.primary };
-      case 'Pending':
-        return { bg: '#FEF3C7', text: COLORS.warning };
-      default:
-        return { bg: COLORS.gray200, text: COLORS.gray500 };
+  // Filter and Sort Cases
+  const filteredAndSortedCases = useMemo(() => {
+    let filtered = allCases;
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(
+        (c) =>
+          c.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
+
+    // Apply status/priority filter
+    if (selectedFilter !== 'All') {
+      if (selectedFilter === 'Urgent') {
+        filtered = filtered.filter((c) => c.priority === 'Urgent');
+      } else {
+        filtered = filtered.filter((c) => c.status === selectedFilter);
+      }
+    }
+
+    // Apply sorting
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'Distance':
+          return a.distance - b.distance;
+        case 'Priority':
+          return getPriorityWeight(b.priority) - getPriorityWeight(a.priority);
+        case 'Pincode':
+          return a.pincode.localeCompare(b.pincode);
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [allCases, searchQuery, selectedFilter, sortBy]);
+
+  // Get filter counts
+  const getFilterCount = (filterId) => {
+    if (filterId === 'All') return allCases.length;
+    if (filterId === 'Urgent') return allCases.filter(c => c.priority === 'Urgent').length;
+    return allCases.filter(c => c.status === filterId).length;
   };
 
   const renderCaseCard = ({ item }) => {
-    const priorityColors = getPriorityColor(item.priority);
-    const statusColors = getStatusColor(item.status);
-
     return (
       <TouchableOpacity 
         style={styles.caseCard}
         activeOpacity={0.7}
-        onPress={() => {/* Navigate to verification form */}}
+        onPress={() => navigation.navigate('Add')}
       >
         <View style={styles.caseHeader}>
           <View style={styles.caseIdRow}>
             <Text style={styles.caseId}>{item.id}</Text>
-            <View style={[styles.badge, { backgroundColor: priorityColors.bg }]}>
-              <Text style={[styles.badgeText, { color: priorityColors.text }]}>
-                {item.priority}
-              </Text>
-            </View>
-            <View style={[styles.badge, { backgroundColor: statusColors.bg }]}>
-              <Text style={[styles.badgeText, { color: statusColors.text }]}>
-                {item.status}
-              </Text>
-            </View>
+            <PriorityBadge priority={item.priority} />
+            <StatusBadge status={item.status} />
           </View>
           
           <View style={styles.caseInfo}>
@@ -168,35 +197,47 @@ const TaskBucket = ({ navigation }) => {
         <View style={styles.caseFooter}>
           <View style={styles.distanceBadge}>
             <Icon name="navigate" size={14} color={COLORS.primary} />
-            <Text style={styles.distanceText}>{item.distance}</Text>
+            <Text style={styles.distanceText}>{item.distance} km</Text>
           </View>
 
-          <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.actionBtn}>
-              <Icon name="call" size={18} color={COLORS.primary} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBtn}>
-              <Icon name="logo-whatsapp" size={18} color="#25D366" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBtn}>
-              <Icon name="navigate" size={18} color={COLORS.primary} />
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionBtn, styles.startBtn]}>
-              <Text style={styles.startBtnText}>Start</Text>
-            </TouchableOpacity>
-          </View>
+          <ActionButtonRow
+            onCall={() => console.log('Call', item.id)}
+            onWhatsApp={() => console.log('WhatsApp', item.id)}
+            onNavigate={() => console.log('Navigate', item.id)}
+            onStart={() => navigation.navigate('Add')}
+          />
         </View>
       </TouchableOpacity>
     );
   };
 
+  const renderEmptyState = () => (
+    <View style={styles.emptyState}>
+      <View style={styles.emptyIcon}>
+        <Icon name="search" size={64} color={COLORS.gray400} />
+      </View>
+      <Text style={styles.emptyTitle}>No Cases Found</Text>
+      <Text style={styles.emptyText}>
+        {searchQuery ? 
+          `No results for "${searchQuery}"` : 
+          `No ${selectedFilter.toLowerCase()} cases available`
+        }
+      </Text>
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Cases</Text>
-        <TouchableOpacity style={styles.headerIcon}>
-          <Icon name="options-outline" size={24} color={COLORS.text.primary} />
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <View style={styles.totalBadge}>
+            <Text style={styles.totalBadgeText}>{filteredAndSortedCases.length}</Text>
+          </View>
+          <TouchableOpacity style={styles.headerIcon}>
+            <Icon name="options-outline" size={24} color={COLORS.text.primary} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Search Bar */}
@@ -210,36 +251,58 @@ const TaskBucket = ({ navigation }) => {
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity onPress={() => setSearchQuery('')}>
+              <Icon name="close-circle" size={20} color={COLORS.gray400} />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
       {/* Filter Chips */}
-      <ScrollView 
-        horizontal 
-        showsHorizontalScrollIndicator={false}
-        style={styles.filtersContainer}
-        contentContainerStyle={styles.filtersContent}
-      >
-        {filters.map((filter) => (
-          <TouchableOpacity
-            key={filter}
-            style={[
-              styles.filterChip,
-              selectedFilter === filter && styles.filterChipActive,
-            ]}
-            onPress={() => setSelectedFilter(filter)}
-          >
-            <Text
-              style={[
-                styles.filterChipText,
-                selectedFilter === filter && styles.filterChipTextActive,
-              ]}
-            >
-              {filter}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <View style={styles.filtersWrapper}>
+        <Text style={styles.filterLabel}>Filters:</Text>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.filtersContainer}
+          contentContainerStyle={styles.filtersContent}
+        >
+          {filters.map((filter) => {
+            const count = getFilterCount(filter.id);
+            return (
+              <TouchableOpacity
+                key={filter.id}
+                style={[
+                  styles.filterChip,
+                  selectedFilter === filter.id && styles.filterChipActive,
+                ]}
+                onPress={() => setSelectedFilter(filter.id)}
+              >
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    selectedFilter === filter.id && styles.filterChipTextActive,
+                  ]}
+                >
+                  {filter.label}
+                </Text>
+                <View style={[
+                  styles.filterCount,
+                  selectedFilter === filter.id && styles.filterCountActive,
+                ]}>
+                  <Text style={[
+                    styles.filterCountText,
+                    selectedFilter === filter.id && styles.filterCountTextActive,
+                  ]}>
+                    {count}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
 
       {/* Sort Options */}
       <View style={styles.sortContainer}>
@@ -276,11 +339,12 @@ const TaskBucket = ({ navigation }) => {
 
       {/* Cases List */}
       <FlatList
-        data={cases}
+        data={filteredAndSortedCases}
         renderItem={renderCaseCard}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={renderEmptyState}
       />
     </SafeAreaView>
   );
@@ -296,15 +360,32 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingVertical: 10,
     backgroundColor: COLORS.white,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray200,
+    paddingTop: 38,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: COLORS.text.primary,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  totalBadge: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  totalBadgeText: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   headerIcon: {
     padding: 4,
@@ -331,17 +412,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text.primary,
   },
-  filtersContainer: {
+  filtersWrapper: {
     backgroundColor: COLORS.white,
-    paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray200,
+    paddingTop: 8,
+  },
+  filterLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: COLORS.text.primary,
+    paddingHorizontal: 20,
+    marginBottom: 8,
+  },
+  filtersContainer: {
+    paddingBottom: 12,
   },
   filtersContent: {
     paddingHorizontal: 20,
   },
   filterChip: {
-    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 20,
     backgroundColor: COLORS.gray50,
@@ -357,8 +450,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: COLORS.text.secondary,
+    marginRight: 6,
   },
   filterChipTextActive: {
+    color: COLORS.white,
+  },
+  filterCount: {
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
+    minWidth: 22,
+    alignItems: 'center',
+  },
+  filterCountActive: {
+    backgroundColor: 'rgba(255,255,255,0.3)',
+  },
+  filterCountText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: COLORS.text.primary,
+  },
+  filterCountTextActive: {
     color: COLORS.white,
   },
   sortContainer: {
@@ -367,9 +480,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     backgroundColor: COLORS.white,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray200,
   },
   sortLabel: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: COLORS.text.primary,
     marginRight: 12,
@@ -432,16 +547,6 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
     marginRight: 8,
   },
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    marginRight: 6,
-  },
-  badgeText: {
-    fontSize: 10,
-    fontWeight: '600',
-  },
   caseInfo: {
     marginBottom: 8,
   },
@@ -501,28 +606,33 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     marginLeft: 4,
   },
-  actionButtons: {
-    flexDirection: 'row',
-    gap: 8,
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 60,
   },
-  actionBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+  emptyIcon: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     backgroundColor: COLORS.gray50,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 24,
   },
-  startBtn: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 16,
-    width: 'auto',
-  },
-  startBtnText: {
-    color: COLORS.white,
-    fontSize: 12,
+  emptyTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
+    color: COLORS.text.primary,
+    marginBottom: 8,
+  },
+  emptyText: {
+    fontSize: 14,
+    color: COLORS.text.secondary,
+    textAlign: 'center',
   },
 });
 
 export default TaskBucket;
+

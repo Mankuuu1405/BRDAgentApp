@@ -199,7 +199,10 @@ const Dashboard = ({ navigation }) => {
           <Text style={styles.greeting}>Good Morning</Text>
           <Text style={styles.userName}>Field Agent</Text>
         </View>
-        <TouchableOpacity style={styles.notificationBtn}>
+        <TouchableOpacity 
+          style={styles.notificationBtn}
+          onPress={() => navigation.navigate('Notifications')}
+        >
           <Icon name="notifications" size={24} color={COLORS.text.primary} />
           <View style={styles.notificationBadge}>
             <Text style={styles.notificationBadgeText}>3</Text>
@@ -231,7 +234,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 40,
     paddingBottom: 20,
     backgroundColor: COLORS.white,
   },
