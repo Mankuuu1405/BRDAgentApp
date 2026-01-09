@@ -215,7 +215,7 @@ const Dashboard = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {renderAttendanceCard()}
+        {/* {renderAttendanceCard()} */}
         {renderPerformanceCard()}
         {renderSmartRoutingMap()}
         {renderUrgentCases()}
