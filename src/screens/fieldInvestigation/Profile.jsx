@@ -241,7 +241,7 @@ const Profile = ({ navigation }) => {
     <View style={styles.card}>
       <Text style={styles.cardTitle}>App Settings</Text>
       
-      <View style={styles.settingRow}>
+      {/* <View style={styles.settingRow}>
         <View style={styles.settingInfo}>
           <Icon name="moon" size={20} color={COLORS.text.secondary} />
           <Text style={styles.settingLabel}>Dark Mode</Text>
@@ -252,7 +252,7 @@ const Profile = ({ navigation }) => {
           trackColor={{ false: COLORS.gray200, true: COLORS.primary }}
           thumbColor={COLORS.white}
         />
-      </View>
+      </View> */}
       
       <View style={styles.settingRow}>
         <View style={styles.settingInfo}>
@@ -310,7 +310,7 @@ const Profile = ({ navigation }) => {
 
   const renderQuickActions = () => (
     <View style={styles.quickActions}>
-      <TouchableOpacity 
+      {/* <TouchableOpacity 
       style={styles.actionCard}
       onPress={() => navigation.navigate('HelpSupport')}
       >
@@ -324,7 +324,7 @@ const Profile = ({ navigation }) => {
       >
         <Icon name="information-circle" size={24} color={COLORS.primary} />
         <Text style={styles.actionText}>About App</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       
       <TouchableOpacity 
       style={styles.actionCard} 

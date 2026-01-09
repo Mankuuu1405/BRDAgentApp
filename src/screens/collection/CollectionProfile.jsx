@@ -271,7 +271,7 @@ const CollectionProfile = ({ navigation }) => {
     <View style={styles.card}>
       <Text style={styles.cardTitle}>App Settings</Text>
 
-      <View style={styles.settingRow}>
+      {/* <View style={styles.settingRow}>
         <View style={styles.settingInfo}>
           <Icon name="moon" size={20} color={COLORS.text.secondary} />
           <Text style={styles.settingLabel}>Dark Mode</Text>
@@ -282,7 +282,7 @@ const CollectionProfile = ({ navigation }) => {
           trackColor={{ false: COLORS.gray200, true: COLORS.primary }}
           thumbColor={COLORS.white}
         />
-      </View>
+      </View> */}
 
       <View style={styles.settingRow}>
         <View style={styles.settingInfo}>
@@ -314,7 +314,7 @@ const CollectionProfile = ({ navigation }) => {
 
   const renderQuickActions = () => (
     <View style={styles.quickActions}>
-      <TouchableOpacity style={styles.actionCard}>
+      {/* <TouchableOpacity style={styles.actionCard}>
         <Icon name="stats-chart" size={24} color={COLORS.primary} />
         <Text style={styles.actionText}>Reports</Text>
       </TouchableOpacity>
@@ -327,6 +327,11 @@ const CollectionProfile = ({ navigation }) => {
       <TouchableOpacity style={styles.actionCard}>
         <Icon name="document-text" size={24} color={COLORS.primary} />
         <Text style={styles.actionText}>Guidelines</Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity style={styles.actionCard} onPress={() => navigation.navigate('PrivacyPolicy')}>
+        <Icon name="shield-checkmark" size={24} color={COLORS.primary} />
+        <Text style={styles.actionText}>Privacy & Policy</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

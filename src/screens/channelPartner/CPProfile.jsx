@@ -205,7 +205,7 @@ const CPProfile = ({ navigation }) => {
 
         <View style={styles.settingDivider} />
 
-        <View style={styles.settingRow}>
+        {/* <View style={styles.settingRow}>
           <View style={styles.settingLeft}>
             <View style={styles.settingIcon}>
               <Icon name="moon" size={20} color={COLORS.primary} />
@@ -222,7 +222,7 @@ const CPProfile = ({ navigation }) => {
             trackColor={{ false: COLORS.gray200, true: COLORS.primary + '50' }}
             thumbColor={COLORS.gray400}
           />
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -259,7 +259,7 @@ const CPProfile = ({ navigation }) => {
 
         <View style={styles.menuDivider} />
 
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
         style={styles.menuItem}
         onPress={() => navigation.navigate('HelpSupport')}
         >
@@ -285,7 +285,7 @@ const CPProfile = ({ navigation }) => {
             <Text style={styles.menuLabel}>About</Text>
           </View>
           <Icon name="chevron-forward" size={20} color={COLORS.gray500} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
