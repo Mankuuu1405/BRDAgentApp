@@ -5,6 +5,9 @@ import SignIn from '../screens/auth/SignIn';
 import SignUp from '../screens/auth/SignUp';
 import OTPVerification from '../screens/auth/OTPVerification';
 import MPINSetup from '../screens/auth/MPINSetup';
+import ForgotPassword from '../screens/auth/ForgotPassword';
+import ForgotPasswordOTP from '../screens/auth/ForgotPasswordOTP';
+import ResetPassword from '../screens/auth/ResetPassword';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +23,9 @@ const AuthNavigator = () => {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="OTPVerification" component={OTPVerification} />
       <Stack.Screen name="MPINSetup" component={MPINSetup} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="ForgotPasswordOTP" component={ForgotPasswordOTP} />
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
     </Stack.Navigator>
   );
 };
