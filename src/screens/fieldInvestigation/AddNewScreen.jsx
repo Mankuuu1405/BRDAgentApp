@@ -1,4 +1,4 @@
-// src/screens/fieldInvestigation/AddNewScreen.js
+// src/screens/fieldInvestigation/AddNewScreen.js  verification screen
 import React, { useState } from 'react';
 import {
   View,
@@ -116,9 +116,6 @@ const AddNewScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color={COLORS.text.primary} />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>Field Verification</Text>
         <View style={{ width: 24 }} />
       </View>

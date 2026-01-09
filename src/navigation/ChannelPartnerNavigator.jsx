@@ -1,13 +1,14 @@
-// src/navigation/FieldAgentNavigator.js (bottom tab navigator for field agents)
+// src/navigation/ChannelPartnerNavigator.jsx
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// Field Investigation Screens
-import Dashboard from '../screens/fieldInvestigation/Dashboard';
-import TaskBucket from '../screens/fieldInvestigation/TaskBucket';
-import AddNewScreen from '../screens/fieldInvestigation/AddNewScreen';
-import Profile from '../screens/fieldInvestigation/Profile';
+// Channel Partner Screens
+import CPDashboard from '../screens/channelPartner/CPDashboard';
+import LeadManagement from '../screens/channelPartner/LeadManagement';
+import CreateLead from '../screens/channelPartner/CreateLead';
+import PayoutLedger from '../screens/channelPartner/PayoutLedger';
+import CPProfile from '../screens/channelPartner/CPProfile';
 
 const COLORS = {
   primary: '#5D6AFF',
@@ -18,7 +19,7 @@ const COLORS = {
 
 const Tab = createBottomTabNavigator();
 
-const FieldAgentNavigator = () => {
+const ChannelPartnerNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -41,7 +42,7 @@ const FieldAgentNavigator = () => {
     >
       <Tab.Screen 
         name="Home" 
-        component={Dashboard}
+        component={CPDashboard}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" size={size} color={color} />
@@ -49,28 +50,37 @@ const FieldAgentNavigator = () => {
         }}
       />
       <Tab.Screen 
-        name="Cases" 
-        component={TaskBucket}
+        name="Leads" 
+        component={LeadManagement}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="clipboard" size={size} color={color} />
+            <Icon name="people" size={size} color={color} />
           ),
-          tabBarBadge: 8,
+          tabBarBadge: 5,
         }}
       />
       <Tab.Screen 
-        name="Add" 
-        component={AddNewScreen}
+        name="Create" 
+        component={CreateLead}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="add" size={size + 8} color={color} />
           ),
-          tabBarLabel: 'Verify',
+          tabBarLabel: 'New Lead',
+        }}
+      />
+      <Tab.Screen 
+        name="Payouts" 
+        component={PayoutLedger}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="wallet" size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen 
         name="Profile" 
-        component={Profile}
+        component={CPProfile}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="person" size={size} color={color} />
@@ -81,4 +91,4 @@ const FieldAgentNavigator = () => {
   );
 };
 
-export default FieldAgentNavigator;
+export default ChannelPartnerNavigator;
