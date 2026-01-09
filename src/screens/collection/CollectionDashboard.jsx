@@ -169,7 +169,7 @@ const CollectionDashboard = ({ navigation }) => {
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Urgent PTPs</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('FollowUp')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Accounts', { screen: 'UrgentPTPListScreen' })}>
           <Text style={styles.viewAllText}>View All</Text>
         </TouchableOpacity>
       </View>
@@ -182,7 +182,17 @@ const CollectionDashboard = ({ navigation }) => {
           amount={ptp.amount}
           date={ptp.date}
           status={ptp.status}
-          onPress={() => navigation.navigate('FollowUp')}
+          onPress={() => navigation.navigate('Accounts', { 
+            screen: 'FollowUpLogger', 
+            params: { 
+              account: {
+                id: ptp.id,
+                customerName: ptp.customerName,
+                phoneNumber: ptp.phoneNumber || '+91 0000000000',
+                overdueAmount: ptp.amount
+              }
+            } 
+          })}
         />
       ))}
     </View>
@@ -210,7 +220,7 @@ const CollectionDashboard = ({ navigation }) => {
     <View style={styles.quickActionsContainer}>
       <Text style={styles.sectionTitle}>Quick Actions</Text>
       <View style={styles.quickActionsGrid}>
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
           style={styles.quickActionCard}
           onPress={() => navigation.navigate('Payment')}
         >
@@ -224,7 +234,7 @@ const CollectionDashboard = ({ navigation }) => {
         >
           <Icon name="call" size={28} color={COLORS.primary} />
           <Text style={styles.quickActionText}>Log Follow Up</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity 
           style={styles.quickActionCard}
@@ -234,10 +244,18 @@ const CollectionDashboard = ({ navigation }) => {
           <Text style={styles.quickActionText}>View Accounts</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.quickActionCard}>
+        <TouchableOpacity 
+          style={styles.quickActionCard}
+          onPress={() => navigation.navigate('RepossessionHistory')}
+        >
+          <Icon name="time" size={28} color={COLORS.primary} />
+          <Text style={styles.quickActionText}>Recovery History</Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity style={styles.quickActionCard}>
           <Icon name="document-text" size={28} color={COLORS.info} />
           <Text style={styles.quickActionText}>Reports</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

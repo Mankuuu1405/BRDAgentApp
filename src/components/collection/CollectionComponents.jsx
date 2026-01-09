@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../../utils/constants';
 
 // Account Card Component
-export const AccountCard = ({ accountId, customerName, phoneNumber, emiAmount, dueDate, dpd, bucket, onCall, onWhatsApp, onNavigate, onPress }) => (
+export const AccountCard = ({ accountId, customerName, phoneNumber, emiAmount, dueDate, dpd, bucket, onCall, onWhatsApp, onNavigate, onPress, followUp, collectPayment }) => (
   <TouchableOpacity style={styles.accountCard} activeOpacity={0.7} onPress={onPress}>
     <View style={styles.accountHeader}>
       <View style={styles.accountIdRow}>
@@ -38,18 +38,24 @@ export const AccountCard = ({ accountId, customerName, phoneNumber, emiAmount, d
     <View style={styles.accountFooter}>
       <View style={styles.actionButtons}>
         <TouchableOpacity style={styles.actionBtn} onPress={onCall}>
-          <Icon name="call" size={18} color={COLORS.primary} />
+          <Icon name="call" size={22} color={COLORS.primary} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionBtn} onPress={onWhatsApp}>
-          <Icon name="logo-whatsapp" size={18} color="#25D366" />
+          <Icon name="logo-whatsapp" size={22} color="#25D366" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionBtn} onPress={onNavigate}>
-          <Icon name="navigate" size={18} color={COLORS.primary} />
+          <Icon name="navigate" size={22} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.followUpBtn}>
-        <Text style={styles.followUpBtnText}>Follow Up</Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity style={styles.followUpBtn} onPress={collectPayment}>
+          <Text style={styles.followUpBtnText}>Collect Payment</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.followUpBtn} onPress={followUp}>
+          <Text style={styles.followUpBtnText}>Follow Up</Text>
+        </TouchableOpacity>
+      </View>
+      
     </View>
   </TouchableOpacity>
 );
@@ -190,8 +196,14 @@ export const CollectionSummary = ({ collected, target, accounts }) => {
 };
 
 // PTP Card Component
+// PTP Card Component
 export const PTPCard = ({ accountId, customerName, amount, date, status, onPress }) => (
-  <TouchableOpacity style={styles.ptpCard} activeOpacity={0.7} onPress={onPress}>
+  <TouchableOpacity 
+    style={styles.ptpCard} 
+    activeOpacity={0.7} 
+    onPress={onPress}
+    disabled={!onPress}
+  >
     <View style={styles.ptpHeader}>
       <View>
         <Text style={styles.ptpAccountId}>{accountId}</Text>
@@ -412,23 +424,29 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   actionBtn: {
-    width: 36,
-    height: 36,
+    width: 48,
+    height: 48,
     borderRadius: 18,
-    backgroundColor: COLORS.gray50,
+    backgroundColor: COLORS.gray100,
     justifyContent: 'center',
     alignItems: 'center',
   },
   followUpBtn: {
     backgroundColor: COLORS.primary,
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 12,
     borderRadius: 18,
+    // marginHorizontal: 2,
+    marginVertical: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   followUpBtnText: {
     color: COLORS.white,
     fontSize: 14,
     fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   // Payment Mode Badge

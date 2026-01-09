@@ -153,17 +153,30 @@ const DelinquencyList = ({ navigation }) => {
     Alert.alert('Navigate', `Opening maps to: ${address}`);
   };
 
+  // const handleAccountPress = (account) => {
+  //   Alert.alert(
+  //     'Account Actions',
+  //     `What would you like to do for ${account.customerName}?`,
+  //     [
+  //       // { text: 'Collect Payment', onPress: () => navigation.navigate('PaymentCollection', { account }) },
+  //       // { text: 'Log Follow Up', onPress: () => navigation.navigate('FollowUpLogger', { account }) },
+  //       { text: 'View Details', onPress: () => navigation.navigate('AccountDetails', {account}) },
+  //       { text: 'Cancel', style: 'cancel' },
+  //     ]
+  //   );
+  // };
+
   const handleAccountPress = (account) => {
-    Alert.alert(
-      'Account Actions',
-      `What would you like to do for ${account.customerName}?`,
-      [
-        { text: 'Collect Payment', onPress: () => navigation.navigate('PaymentCollection', { account }) },
-        { text: 'Log Follow Up', onPress: () => navigation.navigate('FollowUpLogger', { account }) },
-        { text: 'View Details', onPress: () => navigation.navigate('AccountDetails', {account}) },
-        { text: 'Cancel', style: 'cancel' },
-      ]
-    );
+    navigation.navigate('AccountDetails', { account });
+  };
+
+
+  const handleFollowUpLogger = (account) => {
+    navigation.navigate('FollowUpLogger', { account });
+  };
+
+  const handleCollectPayment = (account) => {
+    navigation.navigate('PaymentCollection', { account });
   };
 
   const renderAccountCard = ({ item }) => (
@@ -179,6 +192,8 @@ const DelinquencyList = ({ navigation }) => {
       onWhatsApp={() => handleWhatsApp(item.phoneNumber)}
       onNavigate={() => handleNavigate(item.address)}
       onPress={() => handleAccountPress(item)}
+      followUp={() => handleFollowUpLogger(item)}
+      collectPayment={() => handleCollectPayment(item)}
     />
   );
 
@@ -373,7 +388,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray50,
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 6,
     borderWidth: 1,
     borderColor: COLORS.gray200,
   },

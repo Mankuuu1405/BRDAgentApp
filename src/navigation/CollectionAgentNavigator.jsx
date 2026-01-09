@@ -17,6 +17,8 @@ import VehicleScanner from '../screens/collection/VehicleScanner';
 import YardEntry from '../screens/collection/YardEntry';
 import RepossessionHistory from '../screens/collection/RepossessionHistory';
 import CollectionProfile from '../screens/collection/CollectionProfile';
+import UrgentPTPListScreen from '../screens/collection/UrgentPTPListScreen';
+
 
 const COLORS = {
   primary: '#5D6AFF',
@@ -42,6 +44,7 @@ const AccountsStack = () => {
       <Stack.Screen name="PaymentCollection" component={PaymentCollection} />
       <Stack.Screen name="FollowUpLogger" component={FollowUpLogger} />
       <Stack.Screen name="VisitRecording" component={VisitRecording} />
+      <Stack.Screen name="UrgentPTPListScreen" component={UrgentPTPListScreen} />
     </Stack.Navigator>
   );
 };

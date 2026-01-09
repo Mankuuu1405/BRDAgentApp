@@ -17,25 +17,48 @@ import { COLORS } from '../../utils/constants';
 import { DispositionBadge, CallLogEntry, AudioRecordingCard } from '../../components/collection/CollectionComponents';
 
 const FollowUpLogger = ({ navigation, route }) => {
-  const accountData = route?.params?.account || {
-    id: 'LA-2025-1234',
-    customerName: 'Rajesh Kumar',
-    phoneNumber: '+91 9876543210',
-    overdueAmount: '₹36,000',
-  };
 
-  const [followUpType, setFollowUpType] = useState('CALL'); // CALL, FIELD_VISIT, PTP
-  const [disposition, setDisposition] = useState('');
+  // 1. EXTRACT DATA FROM NAVIGATION PARAMS
+  const passedAccount = route?.params?.account;
+
+  // 2. INITIALIZE STATE WITH PASSED DATA OR DEFAULTS
+  const [accountData] = useState({
+    id: passedAccount?.id || 'LA-2025-1234',
+    customerName: passedAccount?.customerName || 'Rajesh Kumar',
+    phoneNumber: passedAccount?.phoneNumber || '+91 9876543210',
+    overdueAmount: passedAccount?.overdueAmount || passedAccount?.amount || '₹36,000',
+  });
+
+
+
+  // const accountData = route?.params?.account || {
+  //   id: 'LA-2025-1234',
+  //   customerName: 'Rajesh Kumar',
+  //   phoneNumber: '+91 9876543210',
+  //   overdueAmount: '₹36,000',
+  // };
+
+  // Automatically set type to PTP if we came from a PTP card
+  const [followUpType, setFollowUpType] = useState(passedAccount ? 'PTP' : 'CALL'); 
+  const [disposition, setDisposition] = useState(passedAccount ? 'PTP' : '');
+
+  // const [followUpType, setFollowUpType] = useState('CALL'); // CALL, FIELD_VISIT, PTP
+  // const [disposition, setDisposition] = useState('');
   const [contactPerson, setContactPerson] = useState('SELF');
   const [callDuration, setCallDuration] = useState('');
   const [ptpDate, setPtpDate] = useState('');
-  const [ptpAmount, setPtpAmount] = useState('');
+  const [ptpAmount, setPtpAmount] = useState(passedAccount?.amount?.replace(/[^0-9]/g, '') || ''); // Pre-fill amount if available
+  // const [ptpDate, setPtpDate] = useState('');
+  // const [ptpAmount, setPtpAmount] = useState('');
   const [notes, setNotes] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [recordings, setRecordings] = useState([]);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
+  
+
+
 
   const [callHistory] = useState([
     {
