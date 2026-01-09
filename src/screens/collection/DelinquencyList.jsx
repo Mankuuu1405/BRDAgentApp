@@ -158,9 +158,9 @@ const DelinquencyList = ({ navigation }) => {
       'Account Actions',
       `What would you like to do for ${account.customerName}?`,
       [
-        { text: 'Collect Payment', onPress: () => navigation.navigate('Payment', { account }) },
-        { text: 'Log Follow Up', onPress: () => navigation.navigate('FollowUp', { account }) },
-        { text: 'View Details', onPress: () => Alert.alert('View Details', 'Details screen coming soon') },
+        { text: 'Collect Payment', onPress: () => navigation.navigate('PaymentCollection', { account }) },
+        { text: 'Log Follow Up', onPress: () => navigation.navigate('FollowUpLogger', { account }) },
+        { text: 'View Details', onPress: () => navigation.navigate('AccountDetails', {account}) },
         { text: 'Cancel', style: 'cancel' },
       ]
     );
