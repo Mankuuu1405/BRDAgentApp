@@ -246,7 +246,7 @@ const CollectionDashboard = ({ navigation }) => {
 
         <TouchableOpacity 
           style={styles.quickActionCard}
-          onPress={() => navigation.navigate('RepossessionHistory')}
+          onPress={() => navigation.navigate('Recovery', { screen: 'RepossessionHistory' })}
         >
           <Icon name="time" size={28} color={COLORS.primary} />
           <Text style={styles.quickActionText}>Recovery History</Text>
